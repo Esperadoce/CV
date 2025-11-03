@@ -1,0 +1,50 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+LICENSE
+DEPLOYMENT.md
+
+# Backup files
+index_backup.html
+*.backup
+*.bak
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker files (don't include in the image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Node modules (if you add npm later)
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# CI/CD files
+.github
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local

@@ -20,6 +20,8 @@ A stunning, modern CV/portfolio website featuring breathtaking 3D animations, sm
 - **⚡ Loading Screen**: Smooth loading animation with progress bar and percentage indicator
 - **🚀 Performance Optimized**: Fast loading and smooth 60fps animations with hardware acceleration
 - **📥 Downloadable CV**: Quick download button for PDF resume
+- **🐳 Docker Ready**: Containerized with nginx, automated deployment via GitHub Actions
+- **🔄 CI/CD Pipeline**: Automatic build and deploy to GitHub Pages and Container Registry
 
 ## 📁 Project Structure
 
@@ -47,7 +49,15 @@ CV/
 │   │   └── your-cv.pdf      # Downloadable PDF CV (add your resume here)
 │   └── fonts/               # Custom fonts (optional)
 ├── index.html               # Main HTML file
+├── Dockerfile               # Docker configuration for nginx
+├── docker-compose.yml       # Docker Compose for easy deployment
+├── nginx.conf               # Custom nginx configuration
+├── .dockerignore           # Docker build exclusions
+├── .github/
+│   └── workflows/
+│       └── deploy.yml      # GitHub Actions CI/CD pipeline
 ├── README.md                # This file
+├── DEPLOYMENT.md           # Detailed deployment guide
 ├── .gitignore              # Git ignore file
 └── LICENSE                 # License file
 ```
@@ -57,9 +67,29 @@ CV/
 ### Prerequisites
 
 - A modern web browser (Chrome, Firefox, Safari, Edge)
-- A local web server (recommended) or GitHub Pages
+- [Docker](https://docs.docker.com/get-docker/) (recommended for deployment)
+- OR a local web server for development
 
-### Installation
+### Quick Start with Docker 🐳
+
+The fastest way to run your CV website:
+
+```bash
+# Clone the repository
+git clone https://github.com/Esperadoce/CV.git
+cd CV
+
+# Run with Docker Compose (recommended)
+docker-compose up -d
+
+# OR build and run manually
+docker build -t cv-website .
+docker run -d -p 28080:8080 cv-website
+```
+
+Visit: `http://localhost:28080`
+
+### Installation (Traditional)
 
 1. **Clone the repository**
    ```bash
@@ -75,26 +105,41 @@ CV/
 
 3. **Run locally**
    
-   **Option 1: Using Python**
+   **Option 1: Using Docker (Recommended)**
    ```bash
-   # Python 3
-   python -m http.server 8000
+   docker-compose up -d
    ```
-   Then open `http://localhost:8000`
+   Then open `http://localhost:28080`
 
-   **Option 2: Using Node.js**
+   **Option 2: Using Python**
    ```bash
-   npx http-server
+   python -m http.server 28080
    ```
 
-   **Option 3: Using VS Code**
+   **Option 3: Using Node.js**
+   ```bash
+   npx http-server -p 28080
+   ```
+
+   **Option 4: Using VS Code**
    - Install "Live Server" extension
    - Right-click `index.html` → "Open with Live Server"
 
-4. **Deploy**
-   - **GitHub Pages**: Push to GitHub and enable Pages in settings
-   - **Netlify/Vercel**: Drag and drop the folder
-   - **Your own hosting**: Upload via FTP
+4. **Deploy Automatically** 🚀
+   
+   Simply push to GitHub and it auto-deploys:
+   ```bash
+   git add .
+   git commit -m "Update CV"
+   git push
+   ```
+   
+   **Automatic deployment includes:**
+   - ✅ GitHub Pages (free hosting at `username.github.io/CV`)
+   - ✅ Docker image published to GitHub Container Registry
+   - ✅ Optional: Deploy to your own server via SSH
+   
+   **See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment options**
 
 ## 🎨 Customization
 
@@ -243,6 +288,35 @@ material.opacity = 0.75;
 - **JavaScript ES6+** - Modular and clean code
 - **Three.js** - 3D graphics and animations
 - **LocalStorage API** - Theme preference persistence
+- **Docker** - Containerization with nginx
+- **GitHub Actions** - CI/CD pipeline for automated deployment
+
+## 🌐 Deployment Options
+
+This CV supports multiple deployment methods:
+
+| Method | Cost | Setup Time | Best For |
+|--------|------|------------|----------|
+| **GitHub Pages** | FREE | 2 min | Quick start, public repos |
+| **Docker + VPS** | $5/mo | 10 min | Full control, custom domain |
+| **Netlify** | FREE | 5 min | Easy drag-and-drop |
+| **Vercel** | FREE | 5 min | Modern hosting |
+
+**Quick Deploy Commands:**
+
+```bash
+# Deploy to GitHub Pages (automatic on push)
+git push origin master
+
+# Deploy to your server with Docker
+docker pull ghcr.io/esperadoce/cv:latest
+docker run -d -p 28080:8080 ghcr.io/esperadoce/cv:latest
+
+# Deploy with Docker Compose
+docker-compose up -d
+```
+
+📖 **See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide**
 
 ## 📄 License
 

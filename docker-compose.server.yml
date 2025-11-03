@@ -1,0 +1,27 @@
+# Docker Compose configuration for production server
+# Place this file at /opt/cv/docker-compose.yml on your server
+
+version: '3.8'
+
+services:
+  cv-website:
+    image: esperadoce/cv:${TAG:-latest}
+    container_name: cv-website
+    restart: unless-stopped
+    ports:
+      - "28080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - cv-network
+    labels:
+      - "com.docker.compose.project=cv-website"
+      - "description=Personal CV Website by Hicham Bouchikhi"
+
+networks:
+  cv-network:
+    driver: bridge
