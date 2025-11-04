@@ -75,7 +75,7 @@ async function renderExperienceFromJSON() {
 
     const render = (data) => {
         if (!data || !Array.isArray(data.experiences) || data.experiences.length === 0) {
-            container.innerHTML = '';
+            // Do not clear container; keep any static fallback markup
             return false;
         }
         container.innerHTML = data.experiences.map((exp, idx) => {
@@ -130,8 +130,8 @@ async function renderExperienceFromJSON() {
         }
     }
 
-    // Final fallback: leave timeline empty
-    container.innerHTML = '';
+    // Final fallback: keep whatever static markup exists
+    return;
 }
 
 function escapeHtml(str) {
