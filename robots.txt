@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hicham.bouchikhi.net/sitemap.xml
