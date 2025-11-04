@@ -80,17 +80,12 @@
     }
 
     .skill-circle svg {
-        width: 100px;
-        height: 100px;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
     }
 
-    .skill-circle-bg,
-    .skill-circle-progress {
-        cx: 50;
-        cy: 50;
-        r: 42;
-        stroke-width: 8;
-    }
+    /* Geometry is defined in SVG via viewBox; avoid overriding cx/cy/r via CSS for cross-browser reliability */
 
     .skill-percent {
         font-size: 1.4em;
@@ -215,17 +210,12 @@
     }
 
     .skill-circle svg {
-        width: 110px;
-        height: 110px;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
     }
 
-    .skill-circle-bg,
-    .skill-circle-progress {
-        cx: 55;
-        cy: 55;
-        r: 46;
-        stroke-width: 8;
-    }
+    /* Geometry is defined in SVG via viewBox; avoid overriding cx/cy/r via CSS for cross-browser reliability */
 
     .skill-percent {
         font-size: 1.5em;
