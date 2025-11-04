@@ -1,0 +1,104 @@
+{
+    "experiences": [
+        {
+            "title": "Technical lead | Data migration & Optimisation",
+            "company": "GIANT Consulting",
+            "location": "Lyon, Auvergne-Rhône-Alpes, France (Remote)",
+            "start": "Jan 2024",
+            "end": "Present",
+            "description": [
+                "Developed a framework serving as the technical foundation for data migration",
+                "Built an ETL in .NET Core to migrate data from competing tools to Coexya solutions",
+                "Implemented CI/CD pipelines to deploy migration solutions to production servers",
+                "Optimized bulk inserts in SQL Server to insert up to 1,000,000 rows in 15 seconds",
+                "Parallelized and optimized data transformation processes",
+                "Created an ETL project template for Visual Studio 2022"
+            ]
+        },
+        {
+            "title": "Senior Back-End Developer",
+            "company": "Positive Thinking Company (Cegid)",
+            "location": "France",
+            "start": "Feb 2021",
+            "end": "Jan 2024",
+            "description": [
+                "Contributed to the R&D team focused on authentication (OpenID Connect)",
+                "Implemented new features and developer tooling in an Azure environment",
+                "Worked with C#, GraphQL Hot Chocolate, and Azure Database to optimize processes"
+            ]
+        },
+        {
+            "title": "Technical Support Team Lead",
+            "company": "NEUFLIZE OBC",
+            "location": "Lyon, Auvergne-Rhône-Alpes, France",
+            "start": "Mar 2020",
+            "end": "Feb 2021",
+            "description": [
+                "Maintained banking applications and migrated French banking servers to Dutch servers",
+                "Trained and supervised developers and followed up on their work",
+                "Produced and developed applications for production environments"
+            ]
+        },
+        {
+            "title": "Design and Development Engineer",
+            "company": "Modis",
+            "location": "Lyon Area, France",
+            "start": "Jan 2018",
+            "end": "Jan 2020",
+            "description": [
+                "Led development of a compiler for Siemens automata used in EDF power plants (team lead)",
+                "Performed specification analysis, implementation studies, development, and unit testing",
+                "Worked on SharePoint migration (2007 -> 2016) for Adecco Group"
+            ]
+        },
+        {
+            "title": "Developer and Technical Lead (external)",
+            "company": "Banque Populaire Auvergne Rhône Alpes",
+            "location": "France",
+            "start": "Dec 2016",
+            "end": "Jan 2018",
+            "description": [
+                "Supported bank merger and hierarchical change projects with data/statistics gathering",
+                "Built a web app to assist managers communicating merger-related client changes",
+                "Developed cash management, billing, B2B direct-debit mandate management, and Swiss franc credit solutions",
+                "Migrated application stack to the post-merger architecture"
+            ]
+        },
+        {
+            "title": ".NET Software Engineer",
+            "company": "Alteca",
+            "location": "France",
+            "start": "Sept 2016",
+            "end": "Jan 2018",
+            "description": [
+                "Prepared and organized initiatives to popularize blockchain technology",
+                "Set up a private Ethereum network using Geth, Azure, Docker, and Blockapps",
+                "Consumed JSON-RPC APIs and authored smart contracts in Solidity",
+                "Integrated a native C++ library into a Xamarin iOS app using TensorFlow to assist visually impaired users"
+            ]
+        },
+        {
+            "title": "SharePoint /.NET Developer",
+            "company": "Orange Business Services",
+            "location": "Lyon Area, France",
+            "start": "Mar 2016",
+            "end": "Aug 2016",
+            "description": [
+                "Studied SharePoint 2016 features and performed migration analysis from SharePoint 2013",
+                "Integrated the Elise software module into SharePoint dashboards and email feedback flows"
+            ]
+        },
+        {
+            "title": "Dot Net Developer",
+            "company": "Algo Consulting Group",
+            "location": "Rabat, Morocco",
+            "start": "Jun 2014",
+            "end": "Aug 2015",
+            "description": [
+                "Worked on dematerialization of administrative procedures for Morocco and the Republic of Guinea (e-government project)",
+                "Simplified procedures, designed hardware for e-kiosk terminals, and developed web/mobile applications",
+                "Project awarded Innovation for Africa Market Place First Place Award 2015"
+            ]
+        }
+    ]
+}

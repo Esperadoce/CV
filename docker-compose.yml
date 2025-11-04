@@ -14,11 +14,11 @@ services:
       retries: 3
       start_period: 5s
     networks:
-      - cv-network
+      - nginx_network
     labels:
       - "com.docker.compose.project=cv-website"
       - "description=Personal CV Website by Hicham Bouchikhi"
 
 networks:
-  cv-network:
-    driver: bridge
+  nginx_network:
+    external: true
