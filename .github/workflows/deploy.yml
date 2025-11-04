@@ -39,6 +39,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
+    # Temporarily disabled: skip remote deployment while keeping build-and-push active
+    if: ${{ false }}
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
