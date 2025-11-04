@@ -17,7 +17,7 @@ import {
     showModal,
     closeModal,
     initModalCloseOnOutsideClick,
-    handleSubmit
+    
 } from './utils.js';
 
 // ===== INITIALIZATION =====
@@ -61,7 +61,6 @@ window.showEasterEgg = showEasterEgg;
 window.closeEasterEgg = closeEasterEgg;
 window.showModal = showModal;
 window.closeModal = closeModal;
-window.handleSubmit = handleSubmit;
 
 // ===== START APPLICATION =====
 init();

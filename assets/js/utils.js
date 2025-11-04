@@ -53,34 +53,3 @@ export function initModalCloseOnOutsideClick() {
     }
 }
 
-// Contact Form
-export function handleSubmit(event) {
-    event.preventDefault();
-
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-
-    alert(`✅ Message sent!\n\nFrom: ${name}\nEmail: ${email}\n\nIn a real implementation, this would send your message via email or API.`);
-
-    event.target.reset();
-
-    // In a real implementation, you would send the data to a server:
-    /*
-    fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, message }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert('Message sent successfully!');
-        event.target.reset();
-    })
-    .catch(error => {
-        alert('Error sending message. Please try again.');
-    });
-    */
-}
