@@ -75,9 +75,16 @@ async function renderExperienceFromJSON() {
 
     try {
         const res = await fetch('assets/data/experience.json', { cache: 'no-store' });
-        if (!res.ok) return; // Silently skip if not found
+        if (!res.ok) {
+            // Provide a subtle fallback UI when the JSON isn't available
+            container.innerHTML = '';
+            return;
+        }
         const data = await res.json();
-        if (!data || !Array.isArray(data.experiences) || data.experiences.length === 0) return;
+        if (!data || !Array.isArray(data.experiences) || data.experiences.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
 
         container.innerHTML = data.experiences.map((exp, idx) => {
             const title = exp.title || '';
@@ -102,9 +109,12 @@ async function renderExperienceFromJSON() {
                 </div>
             `;
         }).join('');
+
+        // Ensure newly injected items become visible without requiring a scroll
+        try { revealOnScroll(); } catch (_) { /* no-op */ }
     } catch (e) {
-        // Ignore errors to avoid breaking the static page when running from file:// or without JSON
-        // console.warn('Experience JSON not loaded:', e);
+        // Fail silently to avoid breaking the static page
+        container.innerHTML = '';
     }
 }
 
