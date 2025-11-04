@@ -73,19 +73,11 @@ async function renderExperienceFromJSON() {
     const container = document.getElementById('experience-timeline');
     if (!container) return; // No experience section present
 
-    try {
-        const res = await fetch('assets/data/experience.json', { cache: 'no-store' });
-        if (!res.ok) {
-            // Provide a subtle fallback UI when the JSON isn't available
-            container.innerHTML = '';
-            return;
-        }
-        const data = await res.json();
+    const render = (data) => {
         if (!data || !Array.isArray(data.experiences) || data.experiences.length === 0) {
             container.innerHTML = '';
-            return;
+            return false;
         }
-
         container.innerHTML = data.experiences.map((exp, idx) => {
             const title = exp.title || '';
             const company = exp.company || '';
@@ -112,10 +104,34 @@ async function renderExperienceFromJSON() {
 
         // Ensure newly injected items become visible without requiring a scroll
         try { revealOnScroll(); } catch (_) { /* no-op */ }
-    } catch (e) {
-        // Fail silently to avoid breaking the static page
-        container.innerHTML = '';
+        return true;
+    };
+
+    // Attempt network fetch first
+    try {
+        const res = await fetch(new URL('assets/data/experience.json', document.baseURI), { cache: 'no-store' });
+        if (res.ok) {
+            const data = await res.json();
+            if (render(data)) return;
+        }
+    } catch (_) {
+        // ignore network errors and fall back to inline data
     }
+
+    // Fallback: use inline JSON if present
+    const inline = document.getElementById('experience-data');
+    if (inline && inline.textContent) {
+        try {
+            const data = JSON.parse(inline.textContent);
+            render(data);
+            return;
+        } catch (_) {
+            // If parsing fails, leave empty
+        }
+    }
+
+    // Final fallback: leave timeline empty
+    container.innerHTML = '';
 }
 
 function escapeHtml(str) {
