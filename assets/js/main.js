@@ -20,6 +20,45 @@ import {
 
 } from './utils.js';
 
+let threeScriptPromise = null;
+
+function loadThreeScript() {
+    if (typeof window.THREE !== 'undefined') {
+        return Promise.resolve();
+    }
+
+    if (threeScriptPromise) {
+        return threeScriptPromise;
+    }
+
+    threeScriptPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'assets/lib/three.min.js';
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load Three.js'));
+        document.head.appendChild(script);
+    });
+
+    return threeScriptPromise;
+}
+
+function init3DWhenIdle() {
+    const start = () => {
+        loadThreeScript()
+            .then(() => init3D())
+            .catch(() => {
+                // Keep the page usable even if 3D fails to load.
+            });
+    };
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(start, { timeout: 1200 });
+    } else {
+        window.setTimeout(start, 150);
+    }
+}
+
 // ===== INITIALIZATION =====
 function init() {
     // Initialize loading screen
@@ -30,7 +69,7 @@ function init() {
 
     // Listen for loading complete event
     document.addEventListener('loadingComplete', () => {
-        init3D();
+        init3DWhenIdle();
     });
 
     // Initialize smooth scrolling
@@ -40,18 +79,27 @@ function init() {
     initModalCloseOnOutsideClick();
 
     // Show hero content on page load
-    window.addEventListener('load', showHeroContent);
+    window.addEventListener('load', showHeroContent, { once: true });
 
-    // Scroll event listeners
-    window.addEventListener('scroll', () => {
-        revealOnScroll();
-        handleNavbar();
-        animateSkillCircles();
-        update3DOnScroll();
-    });
+    // Scroll work is throttled to one update per animation frame.
+    let isScrollTicking = false;
+    const handleScroll = () => {
+        if (isScrollTicking) return;
+
+        isScrollTicking = true;
+        window.requestAnimationFrame(() => {
+            revealOnScroll();
+            handleNavbar();
+            animateSkillCircles();
+            update3DOnScroll();
+            isScrollTicking = false;
+        });
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Initial reveal check
     revealOnScroll();
+    handleNavbar();
     animateSkillCircles();
 
     // Try to load experience data (non-blocking)

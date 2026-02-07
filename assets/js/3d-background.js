@@ -4,76 +4,80 @@ let mouseX = 0, mouseY = 0;
 let touchStartX = 0, touchStartY = 0;
 let cameraRotationX = 0, cameraRotationY = 0;
 let animationFrameId = null;
+let isTouchInput = false;
+let isLowPowerMode = false;
 
 export function init3D() {
-    const canvas = document.getElementById('canvas-3d');
+    if (renderer) return;
 
-    // Check if Three.js is loaded
-    if (typeof THREE === 'undefined') {
-        console.log('Waiting for Three.js to load...');
-        setTimeout(init3D, 100);
+    const canvas = document.getElementById('canvas-3d');
+    if (!canvas || typeof THREE === 'undefined') {
         return;
     }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+        return;
+    }
+
+    isTouchInput = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const hasLowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+    isLowPowerMode = isTouchInput || hasLowMemory;
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
+        canvas,
         alpha: true,
-        antialias: true,
-        powerPreference: "high-performance"
+        antialias: !isLowPowerMode,
+        powerPreference: 'high-performance'
     });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio); // Use full device pixel ratio for crisp rendering
+    renderer.setPixelRatio(getPixelRatioCap());
     camera.position.z = 5;
 
-    // Create particles
-    createParticles();
-
-    // Create geometric shapes
-    createGeometricShapes();
-
-    // Add lighting
+    createParticles(isLowPowerMode ? 350 : 800);
+    createGeometricShapes(isLowPowerMode ? 10 : 16);
     addLighting();
-
-    // Setup interactions
     setupInteractions(canvas);
 
-    // Handle window resize
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('resize', onWindowResize, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    // Show canvas
     canvas.classList.add('loaded');
-
-    // Start animation
     animate();
 }
 
-function createParticles() {
+function getPixelRatioCap() {
+    const ratio = window.devicePixelRatio || 1;
+    const maxRatio = isLowPowerMode ? 1.25 : 1.75;
+    return Math.min(ratio, maxRatio);
+}
+
+function createParticles(particlesCount) {
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1000; // Increased for better visibility
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 30; // Increased spread
+        posArray[i] = (Math.random() - 0.5) * 30;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.025, // Slightly larger
+        size: isLowPowerMode ? 0.018 : 0.025,
         color: 0x667eea,
         transparent: true,
-        opacity: 0.9 // Increased opacity
+        opacity: 0.85
     });
 
     particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 }
 
-function createGeometricShapes() {
+function createGeometricShapes(shapeCount) {
     const geometries = [
-        new THREE.IcosahedronGeometry(0.6, 1), // Increased size and detail
+        new THREE.IcosahedronGeometry(0.6, 1),
         new THREE.OctahedronGeometry(0.6, 1),
         new THREE.TetrahedronGeometry(0.6, 1),
         new THREE.TorusGeometry(0.4, 0.12, 16, 100)
@@ -83,18 +87,20 @@ function createGeometricShapes() {
         color: 0x667eea,
         wireframe: true,
         transparent: true,
-        opacity: 0.75, // Increased for sharper appearance
-        emissive: 0x667eea, // Add glow effect
-        emissiveIntensity: 0.3 // Increased glow
+        opacity: 0.75,
+        emissive: 0x667eea,
+        emissiveIntensity: 0.3
     });
 
-    for (let i = 0; i < 20; i++) { // Increased to 20 for better coverage
+    const spreadX = isLowPowerMode ? 14 : 18;
+    const spreadY = isLowPowerMode ? 22 : 30;
+
+    for (let i = 0; i < shapeCount; i++) {
         const geometry = geometries[Math.floor(Math.random() * geometries.length)];
         const mesh = new THREE.Mesh(geometry, material);
 
-        // Spread objects more evenly across the scene
-        mesh.position.x = (Math.random() - 0.5) * 18;
-        mesh.position.y = (Math.random() - 0.5) * 30; // Increased vertical range even more
+        mesh.position.x = (Math.random() - 0.5) * spreadX;
+        mesh.position.y = (Math.random() - 0.5) * spreadY;
         mesh.position.z = (Math.random() - 0.5) * 15;
 
         mesh.rotation.x = Math.random() * Math.PI;
@@ -106,7 +112,7 @@ function createGeometricShapes() {
                 y: (Math.random() - 0.5) * 0.01,
                 z: (Math.random() - 0.5) * 0.01
             },
-            originalY: mesh.position.y // Store original position
+            originalY: mesh.position.y
         };
 
         scene.add(mesh);
@@ -124,29 +130,28 @@ function addLighting() {
 }
 
 function setupInteractions(canvas) {
-    // Mouse interaction for desktop
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Touch gestures for mobile
-    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: true });
     canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-    canvas.addEventListener('touchend', handleTouchEnd);
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: true });
 
-    // Show touch hint on mobile
-    if ('ontouchstart' in window) {
-        setTimeout(() => {
+    if (isTouchInput) {
+        window.setTimeout(() => {
             const hint = document.getElementById('touchHint');
             if (hint) {
                 hint.classList.add('show');
-                setTimeout(() => {
+                window.setTimeout(() => {
                     hint.classList.remove('show');
                 }, 3000);
             }
-        }, 2000);
+        }, 1200);
     }
+}
+
+function handleMouseMove(event) {
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function handleTouchStart(e) {
@@ -175,67 +180,80 @@ function handleTouchMove(e) {
 }
 
 function handleTouchEnd() {
-    // Reset touch tracking if needed
+    // no-op
 }
 
 function onWindowResize() {
+    if (!camera || !renderer) return;
+
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(getPixelRatioCap());
+}
+
+function handleVisibilityChange() {
+    if (document.hidden) {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+        return;
+    }
+
+    if (!animationFrameId && renderer) {
+        animate();
+    }
 }
 
 function animate() {
+    if (!renderer || document.hidden) {
+        animationFrameId = null;
+        return;
+    }
+
     animationFrameId = requestAnimationFrame(animate);
 
-    if (particlesMesh) {
-        // Rotate particles
-        particlesMesh.rotation.y += 0.0005;
-        particlesMesh.rotation.x += 0.0003;
+    if (!particlesMesh) return;
 
-        // Rotate shapes
-        shapes.forEach(shape => {
-            shape.rotation.x += shape.userData.rotationSpeed.x;
-            shape.rotation.y += shape.userData.rotationSpeed.y;
-            shape.rotation.z += shape.userData.rotationSpeed.z;
-        });
+    particlesMesh.rotation.y += 0.0005;
+    particlesMesh.rotation.x += 0.0003;
 
-        // Camera follows mouse on desktop or touch gestures on mobile
-        if ('ontouchstart' in window) {
-            // Mobile: use touch gesture rotation
-            camera.position.x = Math.sin(cameraRotationY) * 5;
-            camera.position.y = Math.sin(cameraRotationX) * 3;
-            camera.position.z = Math.cos(cameraRotationY) * 5;
-        } else {
-            // Desktop: follow mouse
-            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-            camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
-        }
+    shapes.forEach(shape => {
+        shape.rotation.x += shape.userData.rotationSpeed.x;
+        shape.rotation.y += shape.userData.rotationSpeed.y;
+        shape.rotation.z += shape.userData.rotationSpeed.z;
+    });
 
-        camera.lookAt(scene.position);
-
-        renderer.render(scene, camera);
+    if (isTouchInput) {
+        camera.position.x = Math.sin(cameraRotationY) * 5;
+        camera.position.y = Math.sin(cameraRotationX) * 3;
+        camera.position.z = Math.cos(cameraRotationY) * 5;
+    } else {
+        camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+        camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
     }
+
+    camera.lookAt(scene.position);
+    renderer.render(scene, camera);
 }
 
 export function update3DOnScroll() {
     if (shapes.length === 0) return;
 
-    const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    const denominator = Math.max(1, document.body.scrollHeight - window.innerHeight);
+    const scrollPercent = window.scrollY / denominator;
 
     shapes.forEach((shape, index) => {
         const offset = index * 0.2;
-        // Move shapes up and down based on scroll with original position as base
         const scrollMovement = Math.sin(scrollPercent * Math.PI * 4 + offset) * 3;
         shape.position.y = shape.userData.originalY + scrollMovement;
 
-        // Add horizontal movement for more dynamic effect
         shape.position.x += Math.sin(scrollPercent * Math.PI + offset) * 0.002;
     });
 
     if (particlesMesh) {
-        // Rotate particles based on scroll
         particlesMesh.rotation.z = scrollPercent * Math.PI * 2;
-        // Move particles slightly based on scroll
         particlesMesh.position.y = -scrollPercent * 2;
     }
 }
@@ -243,5 +261,10 @@ export function update3DOnScroll() {
 export function cleanup3D() {
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
     }
+
+    window.removeEventListener('resize', onWindowResize);
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    document.removeEventListener('mousemove', handleMouseMove);
 }

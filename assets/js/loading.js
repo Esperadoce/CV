@@ -1,29 +1,69 @@
 // ===== LOADING SCREEN =====
-let progress = 0;
+const SESSION_KEY = 'cv-loading-seen';
+const MIN_FIRST_LOAD_MS = 350;
+const MIN_REPEAT_LOAD_MS = 80;
+const MAX_WAIT_MS = 1800;
 
 export function initLoadingScreen() {
     const progressFill = document.getElementById('progressFill');
     const loadingPercent = document.getElementById('loadingPercent');
     const loadingScreen = document.getElementById('loadingScreen');
 
-    function updateProgress() {
-        if (progress < 100) {
-            progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-
-            progressFill.style.width = progress + '%';
-            loadingPercent.textContent = Math.floor(progress) + '%';
-
-            setTimeout(updateProgress, 100);
-        } else {
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                // Notify main.js that loading is complete
-                document.dispatchEvent(new CustomEvent('loadingComplete'));
-            }, 500);
-        }
+    if (!progressFill || !loadingPercent || !loadingScreen) {
+        document.dispatchEvent(new CustomEvent('loadingComplete'));
+        return;
     }
 
-    // Start loading simulation
-    updateProgress();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasSeenLoading = sessionStorage.getItem(SESSION_KEY) === '1';
+    const minimumDisplayMs = prefersReducedMotion
+        ? 0
+        : (hasSeenLoading ? MIN_REPEAT_LOAD_MS : MIN_FIRST_LOAD_MS);
+
+    const startTime = performance.now();
+    let hasCompleted = false;
+    let isPageReady = document.readyState === 'complete';
+
+    function finalizeLoading() {
+        if (hasCompleted) return;
+        hasCompleted = true;
+        sessionStorage.setItem(SESSION_KEY, '1');
+
+        progressFill.style.width = '100%';
+        loadingPercent.textContent = '100%';
+
+        const elapsed = performance.now() - startTime;
+        const waitMs = Math.max(0, minimumDisplayMs - elapsed);
+
+        window.setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            // Notify main.js that loading is complete
+            document.dispatchEvent(new CustomEvent('loadingComplete'));
+        }, waitMs);
+    }
+
+    function updateProgress() {
+        if (hasCompleted) return;
+
+        const elapsed = performance.now() - startTime;
+        const maxBeforeComplete = isPageReady ? 99 : 92;
+        const progress = Math.min(maxBeforeComplete, Math.round((elapsed / 700) * 100));
+
+        progressFill.style.width = `${progress}%`;
+        loadingPercent.textContent = `${progress}%`;
+
+        window.requestAnimationFrame(updateProgress);
+    }
+
+    if (isPageReady) {
+        finalizeLoading();
+    } else {
+        window.addEventListener('load', () => {
+            isPageReady = true;
+            finalizeLoading();
+        }, { once: true });
+    }
+
+    window.setTimeout(finalizeLoading, MAX_WAIT_MS);
+    window.requestAnimationFrame(updateProgress);
 }
