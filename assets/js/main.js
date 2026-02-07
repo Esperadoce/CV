@@ -60,13 +60,27 @@ function init3DWhenIdle() {
 
 // ===== INITIALIZATION =====
 function init() {
+    let hasStarted3D = false;
+    const start3D = () => {
+        if (hasStarted3D) return;
+        hasStarted3D = true;
+        init3DWhenIdle();
+    };
+
+    // Listen before loading init so we cannot miss an immediate dispatch.
+    document.addEventListener('loadingComplete', start3D, { once: true });
+
     // Initialize loading screen
     initLoadingScreen();
 
-    // Listen for loading complete event
-    document.addEventListener('loadingComplete', () => {
-        init3DWhenIdle();
-    });
+    // Safety net if loading completed before event hookup in older cached bundles.
+    window.setTimeout(() => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        const isLoadingGone = !loadingScreen || loadingScreen.classList.contains('hidden');
+        if (isLoadingGone) {
+            start3D();
+        }
+    }, 0);
 
     // Initialize smooth scrolling
     initSmoothScrolling();

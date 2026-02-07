@@ -17,6 +17,13 @@ body {
     overflow-x: hidden;
 }
 
+/* Force native cursor visibility even if older cached styles set cursor:none. */
+html,
+body,
+body * {
+    cursor: auto;
+}
+
 /* ===== CUSTOM CURSOR ===== */
 /* Disabled to keep the native browser pointer. */
 .cursor,
