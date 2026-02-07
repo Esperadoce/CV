@@ -38,7 +38,7 @@ export function init3D() {
     camera.position.z = 5;
 
     createParticles(isLowPowerMode ? 350 : 800);
-    createGeometricShapes(isLowPowerMode ? 10 : 16);
+    createGeometricShapes(isLowPowerMode ? 14 : 26);
     addLighting();
     setupInteractions(canvas);
 
@@ -76,14 +76,18 @@ function createParticles(particlesCount) {
 }
 
 function createGeometricShapes(shapeCount) {
-    const geometries = [
-        new THREE.IcosahedronGeometry(0.6, 1),
-        new THREE.OctahedronGeometry(0.6, 1),
-        new THREE.TetrahedronGeometry(0.6, 1),
-        new THREE.TorusGeometry(0.4, 0.12, 16, 100)
+    const geometryFactories = [
+        () => new THREE.IcosahedronGeometry(0.55, 1),
+        () => new THREE.OctahedronGeometry(0.58, 1),
+        () => new THREE.TetrahedronGeometry(0.62, 0),
+        () => new THREE.DodecahedronGeometry(0.52, 0),
+        () => new THREE.TorusGeometry(0.38, 0.11, 14, 38),
+        () => new THREE.ConeGeometry(0.42, 0.85, 7, 1),
+        () => new THREE.CylinderGeometry(0.28, 0.28, 0.95, 10, 1, true),
+        () => new THREE.BoxGeometry(0.72, 0.72, 0.72)
     ];
 
-    const material = new THREE.MeshPhongMaterial({
+    const wireMaterial = new THREE.MeshPhongMaterial({
         color: 0x667eea,
         wireframe: true,
         transparent: true,
@@ -91,12 +95,23 @@ function createGeometricShapes(shapeCount) {
         emissive: 0x667eea,
         emissiveIntensity: 0.3
     });
+    const solidMaterial = new THREE.MeshPhongMaterial({
+        color: 0x8fa2ff,
+        wireframe: false,
+        transparent: true,
+        opacity: 0.22,
+        emissive: 0x667eea,
+        emissiveIntensity: 0.18,
+        shininess: 120
+    });
+    const materials = [wireMaterial, wireMaterial, wireMaterial, solidMaterial];
 
     const spreadX = isLowPowerMode ? 14 : 18;
     const spreadY = isLowPowerMode ? 22 : 30;
 
     for (let i = 0; i < shapeCount; i++) {
-        const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+        const geometry = geometryFactories[Math.floor(Math.random() * geometryFactories.length)]();
+        const material = materials[Math.floor(Math.random() * materials.length)];
         const mesh = new THREE.Mesh(geometry, material);
 
         mesh.position.x = (Math.random() - 0.5) * spreadX;

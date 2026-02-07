@@ -17,45 +17,11 @@ body {
     overflow-x: hidden;
 }
 
-/* ===== CUSTOM CURSOR (Desktop only) ===== */
+/* ===== CUSTOM CURSOR ===== */
+/* Disabled to keep the native browser pointer. */
 .cursor,
 .cursor-trail {
-    display: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    * {
-        cursor: none;
-    }
-
-    .cursor,
-    .cursor-trail {
-        display: block;
-    }
-
-    .cursor {
-        width: 20px;
-        height: 20px;
-        border: 2px solid #667eea;
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transition: all 0.1s ease;
-        mix-blend-mode: difference;
-    }
-
-    .cursor-trail {
-        width: 8px;
-        height: 8px;
-        background: #667eea;
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9998;
-        transition: all 0.3s ease;
-        opacity: 0.7;
-    }
+    display: none !important;
 }
 
 /* ===== 3D CANVAS BACKGROUND ===== */

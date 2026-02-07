@@ -1,7 +1,6 @@
 // ===== MAIN APPLICATION ENTRY POINT =====
 
 import { initLoadingScreen } from './loading.js';
-import { initCustomCursor } from './cursor.js';
 import { init3D, update3DOnScroll } from './3d-background.js';
 import {
     revealOnScroll,
@@ -63,9 +62,6 @@ function init3DWhenIdle() {
 function init() {
     // Initialize loading screen
     initLoadingScreen();
-
-    // Initialize custom cursor (desktop only)
-    initCustomCursor();
 
     // Listen for loading complete event
     document.addEventListener('loadingComplete', () => {

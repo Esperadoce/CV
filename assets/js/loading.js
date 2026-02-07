@@ -1,8 +1,9 @@
 // ===== LOADING SCREEN =====
 const SESSION_KEY = 'cv-loading-seen';
-const MIN_FIRST_LOAD_MS = 350;
-const MIN_REPEAT_LOAD_MS = 80;
-const MAX_WAIT_MS = 1800;
+const MIN_FIRST_LOAD_MS = 120;
+const MIN_REPEAT_LOAD_MS = 0;
+const MAX_WAIT_MS = 900;
+const PROGRESS_RAMP_MS = 320;
 
 export function initLoadingScreen() {
     const progressFill = document.getElementById('progressFill');
@@ -22,7 +23,7 @@ export function initLoadingScreen() {
 
     const startTime = performance.now();
     let hasCompleted = false;
-    let isPageReady = document.readyState === 'complete';
+    let isPageReady = document.readyState !== 'loading';
 
     function finalizeLoading() {
         if (hasCompleted) return;
@@ -46,8 +47,8 @@ export function initLoadingScreen() {
         if (hasCompleted) return;
 
         const elapsed = performance.now() - startTime;
-        const maxBeforeComplete = isPageReady ? 99 : 92;
-        const progress = Math.min(maxBeforeComplete, Math.round((elapsed / 700) * 100));
+        const maxBeforeComplete = isPageReady ? 99 : 95;
+        const progress = Math.min(maxBeforeComplete, Math.round((elapsed / PROGRESS_RAMP_MS) * 95));
 
         progressFill.style.width = `${progress}%`;
         loadingPercent.textContent = `${progress}%`;
@@ -55,13 +56,16 @@ export function initLoadingScreen() {
         window.requestAnimationFrame(updateProgress);
     }
 
+    const markReady = () => {
+        isPageReady = true;
+        finalizeLoading();
+    };
+
     if (isPageReady) {
         finalizeLoading();
     } else {
-        window.addEventListener('load', () => {
-            isPageReady = true;
-            finalizeLoading();
-        }, { once: true });
+        document.addEventListener('DOMContentLoaded', markReady, { once: true });
+        window.addEventListener('load', markReady, { once: true });
     }
 
     window.setTimeout(finalizeLoading, MAX_WAIT_MS);
