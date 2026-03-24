@@ -2,9 +2,12 @@
 
 // Download CV
 export function downloadCV() {
-    alert('📥 CV Download feature! In a real implementation, this would download your PDF CV.');
-    // Uncomment and modify when you have a real CV file:
-    // window.location.href = 'assets/cv/your-cv.pdf';
+    const link = document.createElement('a');
+    link.href = 'https://filebrowser.narexil.tech/api/public/dl/1hYE9tcK?inline=true';
+    link.download = 'Hicham_Bouchikhi_CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 // Easter Egg

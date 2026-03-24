@@ -1,0 +1,17 @@
+{
+  "name": "cv-website",
+  "version": "1.0.0",
+  "description": "Modern CV/Portfolio Website with 3D animations",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 28080 -o",
+    "dev": "http-server -p 28080 -o",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["portfolio", "cv", "3d", "threejs"],
+  "author": "Hicham Bouchikhi",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
