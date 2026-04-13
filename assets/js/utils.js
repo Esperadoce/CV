@@ -26,14 +26,23 @@ export function closeEasterEgg() {
 }
 
 // Project Modal
-export function showModal(title, description) {
+export function showModal(title, description, url) {
     const modalTitle = document.getElementById('modalTitle');
     const modalDescription = document.getElementById('modalDescription');
+    const modalLink = document.getElementById('modalLink');
     const projectModal = document.getElementById('projectModal');
 
     if (modalTitle && modalDescription && projectModal) {
         modalTitle.textContent = title;
         modalDescription.textContent = description;
+        if (modalLink) {
+            if (url) {
+                modalLink.href = url;
+                modalLink.style.display = '';
+            } else {
+                modalLink.style.display = 'none';
+            }
+        }
         projectModal.classList.add('show');
     }
 }

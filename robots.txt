@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
+Disallow: /assets/js/lib/
+
+# Rate-limit aggressive SEO crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: DotBot
+Crawl-delay: 10
+
+# Block known bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SeznamBot
+Disallow: /
 
 Sitemap: https://hicham.bouchikhi.net/sitemap.xml

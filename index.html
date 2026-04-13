@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="IT Professional | Developer | Problem Solver - Personal CV and Portfolio">
+    <meta name="description" content="Senior .NET/C# Engineer with 10+ years of experience in data migration, ETL pipelines, and cloud platforms (Azure/AWS). Technical Lead at GIANT Consulting, Lyon, France. Open to remote opportunities.">
     <meta name="author" content="Hicham Bouchikhi">
     <meta name="color-scheme" content="light dark">
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
@@ -13,13 +13,17 @@
     <meta name="msapplication-TileColor" content="#667eea">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="keywords"
-        content="Hicham Bouchikhi, Software Engineer, IT Professional, .NET, C#, JavaScript, TypeScript, Azure, AWS, SQL Server, ETL, Data Migration, OpenID Connect, Lyon, France, Remote, Portfolio, CV">
+        content="Hicham Bouchikhi, Senior Software Engineer, .NET Engineer, C# Developer, Technical Lead, ETL, Data Migration, SQL Server, Azure, AWS, OpenID Connect, GraphQL, Docker, Lyon, France, Remote, Portfolio, CV">
+    <meta name="geo.region" content="FR-ARA">
+    <meta name="geo.placename" content="Lyon, Auvergne-Rhône-Alpes, France">
+    <meta name="geo.position" content="45.764043;4.835659">
+    <meta name="ICBM" content="45.764043, 4.835659">
     <link rel="canonical" href="https://hicham.bouchikhi.net/">
     <link rel="alternate" href="https://hicham.bouchikhi.net/" hreflang="en">
     <!-- Open Graph -->
-    <meta property="og:title" content="Hicham Bouchikhi - IT Professional">
+    <meta property="og:title" content="Hicham Bouchikhi | Senior .NET & C# Engineer">
     <meta property="og:description"
-        content="IT Professional specializing in .NET, C#, JavaScript/TypeScript, Azure, and high-performance data migration.">
+        content="Senior .NET/C# Engineer with 10+ years of experience in data migration, ETL, and cloud platforms. Technical Lead at GIANT Consulting, Lyon, France.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hicham.bouchikhi.net/">
     <meta property="og:image" content="https://hicham.bouchikhi.net/assets/img/og-image.png">
@@ -30,15 +34,18 @@
     <meta property="og:locale" content="en_US">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hicham Bouchikhi - IT Professional">
+    <meta name="twitter:title" content="Hicham Bouchikhi | Senior .NET & C# Engineer">
     <meta name="twitter:description"
-        content="IT Professional specializing in .NET, C#, JavaScript/TypeScript, Azure, and high-performance data migration.">
+        content="Senior .NET/C# Engineer with 10+ years of experience in data migration, ETL, and cloud platforms. Technical Lead at GIANT Consulting, Lyon, France.">
     <meta name="twitter:image" content="https://hicham.bouchikhi.net/assets/img/og-image.png">
     <meta name="theme-color" content="#667eea">
     <!-- Optional Apple Touch Icon: provide PNG for best support if desired -->
     <!-- <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"> -->
-    <title>Hicham Bouchikhi - IT Professional</title>
+    <title>Hicham Bouchikhi | Senior .NET & C# Engineer — Lyon, France</title>
 
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="assets/css/main.css?v=20260207-1" as="style">
+    <link rel="preload" href="assets/css/components.css?v=20260207-1" as="style">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/main.css?v=20260207-1">
     <link rel="stylesheet" href="assets/css/components.css?v=20260207-1">
@@ -105,16 +112,17 @@
                 <div class="profile-image scroll-reveal-left">👨‍💻</div>
                 <div class="about-text scroll-reveal-right">
                     <p>
-                        <strong>Hello! I'm a passionate IT professional</strong> with expertise in modern technologies
-                        and a drive for creating innovative solutions.
+                        <strong>Senior Software Engineer</strong> with over 10 years of experience delivering
+                        enterprise systems across finance, energy, cloud SaaS, and e-government.
                     </p>
                     <p>
-                        With several years of experience in the IT industry, I specialize in developing robust
-                        applications, managing complex systems, and solving challenging technical problems.
+                        I specialise in .NET/C# architecture, high-performance ETL pipelines, and data migration —
+                        including SQL Server bulk optimisations that push over 1,000,000 rows in under 15 seconds.
+                        Currently at Cegid, focusing on AI-driven solutions and developer tooling.
                     </p>
                     <p>
-                        I'm always eager to learn new technologies and take on exciting projects that push the
-                        boundaries of what's possible.
+                        Outside work I build open-source Linux tooling and enjoy problems at the intersection
+                        of performance, automation, and great developer experience.
                     </p>
                 </div>
             </div>
@@ -337,7 +345,7 @@
             <div class="projects-grid">
                 <!-- Award-Winning Project -->
                 <div class="project-card scroll-reveal"
-                    onclick="showModal('Assistive Robot for Disabled', 'Invented a robot to help people with disabilities, featured in Medias24 (May 2014). Recognized for innovation and social impact. [Read Article](https://medias24.com/2014/05/27/trois-jeunes-marocains-inventent-un-robot-pour-les-handicapes/)')">
+                    onclick="showModal('Assistive Robot for Disabled', 'Invented a robot to help people with disabilities, featured in Medias24 (May 2014). Recognized for innovation and social impact.', 'https://medias24.com/2014/05/27/trois-jeunes-marocains-inventent-un-robot-pour-les-handicapes/')">
                     <div class="project-image">🤖</div>
                     <div class="project-content">
                         <div class="project-title">Assistive Robot for Disabled</div>
@@ -398,6 +406,7 @@
             <span class="modal-close" onclick="closeModal()">×</span>
             <h2 id="modalTitle"></h2>
             <p id="modalDescription"></p>
+            <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none">Read More →</a>
         </div>
     </div>
 
@@ -440,7 +449,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Hicham Bouchikhi. All rights reserved.</p>
+        <p>&copy; 2026 Hicham Bouchikhi. All rights reserved.</p>
         <p class="footer-tagline">Built with passion and cutting-edge web technologies 🚀</p>
         <p class="footer-credit">Template by <a href="https://github.com/Esperadoce/CV" target="_blank"
                 rel="noopener noreferrer">Esperadoce</a></p>
@@ -453,21 +462,45 @@
         {
             "@context": "https://schema.org",
             "@type": "Person",
+            "@id": "https://hicham.bouchikhi.net/#person",
             "name": "Hicham Bouchikhi",
             "url": "https://hicham.bouchikhi.net/",
-            "jobTitle": "IT Professional / Software Engineer",
-            "description": "IT Professional specializing in .NET, C#, JavaScript/TypeScript, Azure, and high-performance data migration.",
+            "jobTitle": "Senior Software Engineer / Technical Lead",
+            "description": "Senior .NET/C# Engineer with 10+ years of experience in data migration, ETL pipelines, OpenID Connect authentication, and cloud platforms (Azure/AWS).",
             "image": "https://hicham.bouchikhi.net/assets/img/og-image.png",
+            "email": "hicham@bouchikhi.net",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Lyon",
+                "addressRegion": "Auvergne-Rhône-Alpes",
+                "addressCountry": "FR"
+            },
+            "worksFor": {
+                "@type": "Organization",
+                "name": "GIANT Consulting"
+            },
             "sameAs": [
                 "https://github.com/Esperadoce",
                 "https://fr.linkedin.com/in/hicham-bouchikhi",
                 "https://stackoverflow.com/users/2954082/hicham-bouchikhi"
             ],
             "knowsAbout": [
-                ".NET", "C#", "JavaScript", "TypeScript", "Azure", "AWS", "SQL Server", "ETL", "Data Migration", "OpenID Connect", "GraphQL"
+                ".NET", "C#", "JavaScript", "TypeScript", "Azure", "AWS",
+                "SQL Server", "ETL", "Data Migration", "OpenID Connect",
+                "GraphQL", "Docker", "CI/CD", "Blockchain", "Solidity"
             ]
         }
-        </script>
+    </script>
+    <!-- Structured Data: WebSite -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Hicham Bouchikhi — Portfolio & CV",
+            "url": "https://hicham.bouchikhi.net/",
+            "author": { "@id": "https://hicham.bouchikhi.net/#person" }
+        }
+    </script>
 </body>
 
 </html>

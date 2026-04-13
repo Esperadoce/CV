@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   cv-website:
-    image: esperadoce/cv:${TAG:-latest}
+    image: esperadoce/cv:latest
     container_name: cv-website
     ports:
       - "28080:8080"
@@ -18,6 +18,14 @@ services:
     labels:
       - "com.docker.compose.project=cv-website"
       - "description=Personal CV Website by Hicham Bouchikhi"
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower-cv
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30 --cleanup cv-website
 
 networks:
   nginx_network:
