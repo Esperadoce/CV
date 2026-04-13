@@ -384,8 +384,47 @@
                     </div>
                 </div>
 
-                <!-- Real Client Project: Compiler for Siemens Automata -->
+                <!-- Side Project: Hypricing -->
                 <div class="project-card scroll-reveal project-delay-3"
+                    onclick="showModal('Hypricing — Hyprland Settings Manager', 'A GUI settings manager for the Hyprland Wayland compositor, inspired by Windows Settings. Features drag-and-drop monitor layout editor, keybinding manager, and audio preset management (PipeWire/PulseAudio). Ships as a self-contained 18 MB binary via .NET Native AOT.', 'https://github.com/Esperadoce/Hypricing/')">
+                    <div class="project-image">🪟</div>
+                    <div class="project-content">
+                        <div class="project-title">Hypricing</div>
+                        <div class="project-tech">C#, .NET 10, Avalonia UI, Native AOT</div>
+                        <p class="project-description">
+                            Windows-style settings GUI for the Hyprland Wayland compositor. Monitor layouts, keybindings, audio presets — no config file editing required.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Side Project: PalworldSav.Net -->
+                <div class="project-card scroll-reveal project-delay-4"
+                    onclick="showModal('PalworldSav.Net', 'A .NET library for serializing and deserializing Unreal Engine save files using a hybrid C#/Rust architecture. Wraps the uesave Rust crate for high-performance binary save file processing, with a C# API on top.', 'https://github.com/Oryleh/PalworldSav.Net')">
+                    <div class="project-image">🎮</div>
+                    <div class="project-content">
+                        <div class="project-title">PalworldSav.Net</div>
+                        <div class="project-tech">C#, .NET 8, Rust, P/Invoke</div>
+                        <p class="project-description">
+                            .NET library for parsing Unreal Engine save files. Hybrid C#/Rust architecture for high-performance binary processing.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Side Project: yeti-gx-linux -->
+                <div class="project-card scroll-reveal project-delay-5"
+                    onclick="showModal('Yeti GX Linux Driver', 'Full hardware control for the Logitech Yeti GX microphone on Linux, reverse-engineered from USB traffic captures using the HID++ 2.0 protocol. Enables gain control (0–100%), mute/LED feedback, and Smart Audio Lock — no G Hub required.', 'https://github.com/Esperadoce/yeti-gx-linux')">
+                    <div class="project-image">🎙️</div>
+                    <div class="project-content">
+                        <div class="project-title">Yeti GX Linux Driver</div>
+                        <div class="project-tech">Python, HID++ 2.0, USB Reverse Engineering</div>
+                        <p class="project-description">
+                            Reverse-engineered Linux driver for the Logitech Yeti GX microphone. Full hardware control without G Hub.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Real Client Project: Compiler for Siemens Automata -->
+                <div class="project-card scroll-reveal project-delay-6"
                     onclick="showModal('Siemens Automata Compiler', 'Led the development of a compiler for Siemens automata used in EDF power plants. Managed specification analysis, implementation, and testing.')">
                     <div class="project-image">⚡</div>
                     <div class="project-content">
@@ -406,7 +445,7 @@
             <span class="modal-close" onclick="closeModal()">×</span>
             <h2 id="modalTitle"></h2>
             <p id="modalDescription"></p>
-            <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none">Read More →</a>
+            <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none">View →</a>
         </div>
     </div>
 
